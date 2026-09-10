@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: router-deployment
+  labels:
+    app: router
+
+spec:
+  replicas: 1
+
+  selector:
+    matchLabels:
+      app: router
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: router
+
+    spec:
+      containers:
+        - name: router-container
+          image: router
+
+          ports:
+            - containerPort: 3000
+              name: http
+
+          env:
+            - name: REDIS_URL
+              valueFrom:
+                secretKeyRef:
+                  name: database
+                  key: REDIS_URL
+
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "300m"
+              memory: "256Mi"
+
+          livenessProbe:
+            httpGet:
+              path: /api/status/healthz
+              port: 3000
+            initialDelaySeconds: 30
+            timeoutSeconds: 10
+
+          readinessProbe:
+            httpGet:
+              path: /api/status/healthz
+              port: 3000
+            initialDelaySeconds: 15
+            timeoutSeconds: 10
+
+      restartPolicy: Always

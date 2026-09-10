@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100;0,14..32,200;0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,700;1,14..32,100;1,14..32,200;1,14..32,300&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --nexus-bg:        #FDF3E4;
+  --nexus-surface:   #EBE0CF;
+  --nexus-accent:    #A35100;
+  --nexus-accent-2:  #B55500;
+  --nexus-text:      #34170A;
+  --nexus-border:    rgba(163, 81, 0, 0.10);
+  --primary:         #A35100;
+  --primary-glow:    rgba(163, 81, 0, 0.15);
+}
+
+/* LENIS SETUP */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
+
+html, body {
+  width: 100%;
+  min-height: 100%;
+  background: var(--nexus-bg);
+  color: var(--nexus-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden; /* Prevent horizontal jitter during GSAP pins */
+}
+
+/* TYPOGRAPHY OVERRIDES FOR BEYOND THE BRIEF */
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* PRECISE CUSTOM SCROLLBAR */
+.custom-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(163, 81, 0, 0.2) transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(163, 81, 0, 0.15);
+  border-radius: 20px;
+  border: 1px solid transparent;
+  background-clip: content-box;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(163, 81, 0, 0.4);
+}
+
+/* GSAP ANIMATION UTILITIES */
+.will-change-transform {
+  will-change: transform, opacity;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* NOISE GRAIN OVERLAY */
+.grain-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  mix-blend-mode: multiply;
+  background-image: url('https://res.cloudinary.com/dvwthyt94/image/upload/v1672322316/noise_yvsk9m.png');
+}
+
+/* UTILITIES */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+::selection {
+  background: rgba(163, 81, 0, 0.25);
+  color: var(--nexus-text);
+}
+
+:focus-visible {
+  outline: 2px solid rgba(163, 81, 0, 0.40);
+  outline-offset: 2px;
+}
+
+/* BUTTON STYLES FOR THE PAGE */
+.btn-premium {
+  @apply relative overflow-hidden px-10 py-5 uppercase text-[10px] tracking-[0.4em] font-bold transition-all duration-500;
+  border: 1px solid rgba(52, 23, 10, 0.1);
+}
+
+.btn-premium:hover {
+  @apply text-[#FDF3E4] border-[#34170A];
+}
+
+/* CLIP PATH REVEALS */
+.clip-reveal {
+  clip-path: inset(100% 0% 0% 0%);
+}

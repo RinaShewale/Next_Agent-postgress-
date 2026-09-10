@@ -1,0 +1,25 @@
+FROM node:20-alpine
+
+# Install Nginx
+RUN apk add --no-cache nginx
+
+WORKDIR /app
+
+# Pre-install AWS SDK at build time (needed to download the built
+# site from S3 at container startup)
+RUN npm init -y && \
+    npm install @aws-sdk/client-s3
+
+# Copy the script that downloads the production build from S3
+COPY download-production.mjs /app/download-production.mjs
+
+# Copy nginx config (SPA-friendly: falls back to index.html for client routing)
+COPY nginx.conf /etc/nginx/http.d/default.conf
+
+# Copy startup script
+COPY start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+EXPOSE 80
+
+CMD ["/app/start.sh"]

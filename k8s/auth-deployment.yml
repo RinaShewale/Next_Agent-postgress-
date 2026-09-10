@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: auth-deployment
+  labels:
+    app: auth
+
+
+spec:
+  replicas: 1
+
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+
+  selector:
+    matchLabels:
+      app: auth
+
+
+  template:
+
+    metadata:
+      labels:
+        app: auth
+
+
+    spec:
+
+      containers:
+
+      - name: auth
+
+        image: auth:latest
+
+        imagePullPolicy: IfNotPresent
+
+
+        ports:
+
+        - containerPort: 3000
+          name: auth-port
+
+
+
+        resources:
+
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+
+
+
+        env:
+
+        - name: AUTH_DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: database
+              key: AUTH_DATABASE_URL
+
+        - name:  RABBITMQ_URL
+          valueFrom:
+            secretKeyRef:
+              name: database
+              key:  RABBITMQ_URL
+
+        - name:  RABBITMQ_PORT
+          valueFrom:
+            secretKeyRef:
+              name: database
+              key:  RABBITMQ_PORT    
+
+
+
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: jwt
+              key: JWT_SECRET
+
+
+
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: google
+              key: GOOGLE_CLIENT_ID
+
+
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: google
+              key: GOOGLE_CLIENT_SECRET
+
+
+        - name: GOOGLE_CALLBACK_URL
+          valueFrom:
+            secretKeyRef:
+              name: google
+              key: GOOGLE_CALLBACK_URL
+
+
+        - name: CLIENT_URL
+          valueFrom:
+            secretKeyRef:
+              name: google
+              key: CLIENT_URL
+
+
+
+        - name: PORT
+          value: "3000"
+
+
+
+        readinessProbe:
+
+          httpGet:
+            path: /
+            port: 3000
+
+          initialDelaySeconds: 15
+          periodSeconds: 5
+          timeoutSeconds: 5
+
+
+
+        livenessProbe:
+
+          httpGet:
+            path: /
+            port: 3000
+
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+
+
+
+      restartPolicy: Always

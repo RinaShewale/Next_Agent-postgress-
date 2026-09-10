@@ -1,0 +1,131 @@
+ http: //localhost/api/sandbox/start
+ this api crete sandbox and return data like this
+{
+    "message": "Sandbox created successfully",
+    "sandboxID": "a82e0999-3112-4565-a644-81ceae314c21",
+    "previewUrl": "http://a82e0999-3112-4565-a644-81ceae314c21.preview.localhost",  // crete i frame using this Preview URl
+    "agentUrl": "http://a82e0999-3112-4565-a644-81ceae314c21.agent.localhost"
+}
+
+
+
+
+
+this Api GET http: //a82e0999-3112-4565-a644-81ceae314c21.agent.localhost/list-files
+{
+    "message": "Files in working directory",
+    "files": [
+        ".dockerignore",
+        "README.md",
+        "dockerfile",
+        "eslint.config.js",
+        "index.html",
+        "package-lock.json",
+        "package.json",
+        "public/favicon.svg",
+        "public/icons.svg",
+        "src/App.css",
+        "src/App.jsx",
+        "src/assets/hero.png",
+        "src/assets/react.svg",
+        "src/assets/vite.svg",
+        "src/index.css",
+        "src/main.jsx",
+        "vite.config.js"
+    ]
+}
+
+
+
+
+
+this is GET http: //a82e0999-3112-4565-a644-81ceae314c21.agent.localhost/read-file?files=src/App.css
+{
+    "message": "Files read successfully",
+    "files": [
+        {
+            "/src/App.css": ".counter {\n  font-size: 16px;\n  padding: 5px 10px;\n  border-radius: 5px;\n  color: var(--accent);\n  background: var(--accent-bg);\n  border: 2px solid transparent;\n  transition: border-color 0.3s;\n  margin-bottom: 24px;\n\n  &:hover {\n    border-color: var(--accent-border);\n  }\n  &:focus-visible {\n    outline: 2px solid var(--accent);\n    outline-offset: 2px;\n  }\n}\n\n.hero {\n  position: relative;\n\n  .base,\n  .framework,\n  .vite {\n    inset-inline: 0;\n    margin: 0 auto;\n  }\n\n  .base {\n    width: 170px;\n    position: relative;\n    z-index: 0;\n  }\n\n  .framework,\n  .vite {\n    position: absolute;\n  }\n\n  .framework {\n    z-index: 1;\n    top: 34px;\n    height: 28px;\n    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg)\n      scale(1.4);\n  }\n\n  .vite {\n    z-index: 0;\n    top: 107px;\n    height: 26px;\n    width: auto;\n    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg)\n      scale(0.8);\n  }\n}\n\n#center {\n  display: flex;\n  flex-direction: column;\n  gap: 25px;\n  place-content: center;\n  place-items: center;\n  flex-grow: 1;\n\n  @media (max-width: 1024px) {\n    padding: 32px 20px 24px;\n    gap: 18px;\n  }\n}\n\n#next-steps {\n  display: flex;\n  border-top: 1px solid var(--border);\n  text-align: left;\n\n  & > div {\n    flex: 1 1 0;\n    padding: 32px;\n    @media (max-width: 1024px) {\n      padding: 24px 20px;\n    }\n  }\n\n  .icon {\n    margin-bottom: 16px;\n    width: 22px;\n    height: 22px;\n  }\n\n  @media (max-width: 1024px) {\n    flex-direction: column;\n    text-align: center;\n  }\n}\n\n#docs {\n  border-right: 1px solid var(--border);\n\n  @media (max-width: 1024px) {\n    border-right: none;\n    border-bottom: 1px solid var(--border);\n  }\n}\n\n#next-steps ul {\n  list-style: none;\n  padding: 0;\n  display: flex;\n  gap: 8px;\n  margin: 32px 0 0;\n\n  .logo {\n    height: 18px;\n  }\n\n  a {\n    color: var(--text-h);\n    font-size: 16px;\n    border-radius: 6px;\n    background: var(--social-bg);\n    display: flex;\n    padding: 6px 12px;\n    align-items: center;\n    gap: 8px;\n    text-decoration: none;\n    transition: box-shadow 0.3s;\n\n    &:hover {\n      box-shadow: var(--shadow);\n    }\n    .button-icon {\n      height: 18px;\n      width: 18px;\n    }\n  }\n\n  @media (max-width: 1024px) {\n    margin-top: 20px;\n    flex-wrap: wrap;\n    justify-content: center;\n\n    li {\n      flex: 1 1 calc(50% - 8px);\n    }\n\n    a {\n      width: 100%;\n      justify-content: center;\n      box-sizing: border-box;\n    }\n  }\n}\n\n#spacer {\n  height: 88px;\n  border-top: 1px solid var(--border);\n  @media (max-width: 1024px) {\n    height: 48px;\n  }\n}\n\n.ticks {\n  position: relative;\n  width: 100%;\n\n  &::before,\n  &::after {\n    content: '';\n    position: absolute;\n    top: -4.5px;\n    border: 5px solid transparent;\n  }\n\n  &::before {\n    left: 0;\n    border-left-color: var(--border);\n  }\n  &::after {\n    right: 0;\n    border-right-color: var(--border);\n  }\n}\n"
+        }
+    ]
+}
+
+
+
+
+this is update Api PATCH  http: //a82e0999-3112-4565-a644-81ceae314c21.agent.localhost/update-files
+{
+    "updates": [
+        {
+            "file": "/workspace/src/App.jsx",
+            "content": "export default function App(){ return <h1>Hello AI</h1>; }"
+        }
+    ]
+}
+
+
+{
+    "message": "File update result",
+    "result": [
+        {
+            "/workspace/src/App.jsx": "Updated successfully"
+        }
+    ]
+}
+
+
+
+
+
+this is invoke POST  http: //localhost/api/ai/invoke
+
+req.body: {
+    "message": "Build a modern snake game using React, Vite, and Vanilla CSS "
+}
+
+
+
+response will be in SSE
+
+  Connection closed
+19: 08: 12.877
+error
+{
+    "message": "here  i creted app.jsx ,snake.jsx "
+}
+19: 08: 12.723
+Connected to http: //localhost/api/ai/invoke
+
+
+
+then we have socket url   a82e0999-3112-4565-a644-81ceae314c21.agent.localhost   // use xterm js for terminal on frontend
+
+with event name "terminal-input" for terminal input and "terminal-output" for terminal output
+terminal-output
+root@sandbox-pod-a82e0999-3112-4565-a644-81ceae314c21:/workspace/src# root@sandbox-pod-a82e0999-3112-4565-a644-81ceae314c21:/workspace/src# root@sandbox-pod-a82e0999-3112-4565-a644-81ceae314c21:/w
+22: 27: 28.121
+terminal-output
+cd src
+22: 27: 28.118
+terminal-input
+cd src
+22: 27: 28.100
+terminal-output
+root@sandbox-pod-a82e0999-3112-4565-a644-81ceae314c21:/workspace# root@sandbox-pod-a82e0999-3112-4565-a644-81ceae314c21:/workspace#
+22: 25: 47.163
+terminal-output
+. dockerfile package-lock.json vite.config.js .. eslint.config.js package.json workspace .dockerignore index.html public README.md node_modules src
+22: 25: 47.160
+12345
+.          dockerfile    package-lock.json  vite.config.js..         eslint.config.js  package.json       workspace.dockerignore  index.html    publicREADME.md      node_modules  src
+terminal-output
+ls -a
+22: 25: 47.136
+12
+ls -a
+terminal-input
+ls -a
+22: 25: 47.084
+Listening to
+terminal-output
+22: 25: 42.134
+Connected to a82e0999-3112-4565-a644-81ceae314c21.agent.localhost

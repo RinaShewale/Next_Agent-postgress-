@@ -1,0 +1,177 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+
+metadata:
+  name: capstone
+
+build:
+  tagPolicy:
+    sha256: {}
+
+  local:
+    push: false
+
+  artifacts:
+    # =====================
+    # Sandbox Server
+    # =====================
+    - image: sandbox
+      context: sandbox/server
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.json"
+
+    # =====================
+    # Router
+    # =====================
+    - image: router
+      context: sandbox/router
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.json"
+
+    # =====================
+    # Agent
+    # =====================
+    - image: agent
+      context: sandbox/agent
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.json"
+
+    # =====================
+    # Sync Agent
+    # =====================
+    - image: sync-agent
+      context: sandbox/sync-agent
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.json"
+
+    # =====================
+    # Template React App
+    # =====================
+    - image: template
+      context: sandbox/templete
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.jsx"
+          - "**/*.css"
+          - "**/*.json"
+
+
+    # =====================
+    # Production Website
+    # =====================
+    - image: production
+      context: sandbox/production
+      docker:
+        dockerfile: Dockerfile     
+
+    # =====================
+    # AI Orchestration
+    # =====================
+    - image: ai-orchestration
+      context: ai-orchestration
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.mjs"
+          - "**/*.json"
+
+    # =====================
+    # Auth Service
+    # =====================
+    - image: auth
+      context: auth
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.json"
+
+    # =====================
+    # Notification Service
+    # =====================
+    - image: notification
+      context: notification
+      docker:
+        dockerfile: dockerfile
+      sync:
+        infer:
+          - "**/*.js"
+          - "**/*.json"
+
+manifests:
+  rawYaml:
+    # =====================
+    # RBAC + Secrets
+    # =====================
+    - k8s/rbac.yml
+    - k8s/secrets.yml
+
+    # =====================
+    # Sandbox
+    # =====================
+    - k8s/sandbox-deployment.yml
+    - k8s/sandbox-service.yml
+
+    # =====================
+    # Router
+    # =====================
+    - k8s/router-deployment.yml
+    - k8s/router-service.yml
+
+    # =====================
+    # AI
+    # =====================
+    - k8s/ai-deployment.yml
+    - k8s/ai-service.yml
+
+    # =====================
+    # Auth
+    # =====================
+    - k8s/auth-deployment.yml
+    - k8s/auth-service.yml
+
+    # =====================
+    # Notification
+    # =====================
+    - k8s/notification-deployment.yml
+    - k8s/notification-service.yml
+
+    # =====================
+    # Ingress
+    # =====================
+    - k8s/ingress.yml
+
+deploy:
+  kubectl: {}
+
+# =====================
+# Port Forwarding
+# =====================
+portForward:
+  - resourceType: service
+    resourceName: ingress-nginx-controller
+    namespace: ingress-nginx
+    port: 80
+    localPort: 80
