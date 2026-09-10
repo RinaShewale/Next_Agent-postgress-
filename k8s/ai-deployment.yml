@@ -32,11 +32,11 @@ spec:
             - name: PORT
               value: "3000"
 
-            - name: MISTRAL_API_KEY
+            - name: ANTHROPIC_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: mistral-secret
-                  key: MISTRAL_API_KEY
+                  name: ai-secret
+                  key: ANTHROPIC_API_KEY
 
           resources:
             requests:

@@ -1,12 +1,11 @@
-import { ChatMistralAI } from "@langchain/mistralai";
+import { ChatAnthropic } from "@langchain/anthropic";
 import { createAgent } from "langchain";
 
 import { listFiles, readFiles, updateFiles } from "./tools.js";
 
-const model = new ChatMistralAI({
-  model: "codestral-latest",
-  apiKey: process.env.MISTRAL_API_KEY,
-  temperature: 0,
+const model = new ChatAnthropic({
+  model: "claude-sonnet-4-6",
+  apiKey: process.env.ANTHROPIC_API_KEY,
 });
 
 export const agent = createAgent({
